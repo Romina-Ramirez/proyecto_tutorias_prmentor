@@ -10,7 +10,7 @@
     <router-link to="/cursos">Cursos</router-link>
     <router-link to="/recursos">Recursos</router-link>
     <router-link to="/contacto">Contacto</router-link>
-    <router-link to="/perfil">
+    <router-link to="/login">
       <img
         id="imgPerfil"
         src="../store/usuario.png"
