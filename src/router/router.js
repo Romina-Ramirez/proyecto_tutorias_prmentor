@@ -17,10 +17,7 @@ const routes = [
         path: '/recursos',
         component: () => import('../modules/pages/Recursos.vue')
     },
-    {
-        path: '/contacto',
-        component: () => import('../modules/pages/Contacto.vue')
-    },
+    
     {
         path: '/perfil',
         component: () => import('../modules/pages/Perfil.vue')

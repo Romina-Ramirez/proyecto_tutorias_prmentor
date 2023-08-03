@@ -1,15 +1,19 @@
 <template>
   <NavBar />
   <router-view />
+  <Contactos></Contactos>
+
 </template>
 
 <script>
 import NavBar from "./modules/components/NavBar.vue";
+import Contactos from "./modules/components/Contactos.vue"
 
 export default {
   name: "App",
   components: {
     NavBar,
+    Contactos
   },
 };
 </script>
@@ -22,5 +26,7 @@ export default {
   text-align: center;
   color: black;
   margin-top: 100px;
+  margin-bottom:300px;
+
 }
 </style>

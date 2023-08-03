@@ -7,7 +7,6 @@
         alt="No se pudo mostrar la imagen."
       />
     </router-link>
-    <router-link v-if="ancho" to="/contacto">Contacto</router-link>
     <router-link v-if="ancho && !usuarioRegistrado" to="/perfil">
       <img
         id="imgPerfil"
