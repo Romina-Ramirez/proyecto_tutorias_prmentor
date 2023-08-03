@@ -10,6 +10,10 @@ const routes = [
         component: () => import('../modules/pages/Cursos.vue')
     },
     {
+        path: '/cursoMatematica',
+        component: () => import('../modules/pages/CursoIndividual.vue')
+    },
+    {
         path: '/recursos',
         component: () => import('../modules/pages/Recursos.vue')
     },
@@ -20,6 +24,14 @@ const routes = [
     {
         path: '/perfil',
         component: () => import('../modules/pages/Perfil.vue')
+    },
+    {
+        path: '/login',
+        component: () => import('../modules/pages/LoginPage.vue')
+    },
+    {
+        path: '/registrarse',
+        component: () => import('../modules/pages/RegistroPage.vue')
     },
     {
         path: '/:pathMatch(.*)*',

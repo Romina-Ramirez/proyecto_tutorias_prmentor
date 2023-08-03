@@ -11,16 +11,22 @@
     </div>
     <div class="containerCursos">
       <div class="containerFiltros">
-        <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-        <input type="search" id="inputSearch" placeholder="Buscar..." />
-        <h2 class="filtro">DESCUBRE</h2>
+        <div class="containerSearch">
+          <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+          <input type="search" id="inputSearch" placeholder="Buscar..." />
+        </div>
+        <h3 class="filtro">DESCUBRE</h3>
         <h3>Más valorados</h3>
         <h3>Tendencias</h3>
         <h3>Más nuevos</h3>
         <h3 class="filtro2">CATEGORIAS</h3>
         <h3>MÁS FILTROS</h3>
       </div>
-      <div class="containerComponentes"></div>
+      <div class="containerComponentes">
+          <CursoPCVue id="componenteCursos" />
+          <CursoPCVue id="componenteCursos" />
+          <CursoPCVue id="componenteCursos" />
+      </div>
     </div>
     <div class="containerBotones">
       <button id="btnAnterior" disabled>Anterior</button>
@@ -32,14 +38,32 @@
 
 
 <script>
-export default {};
+import CursoPCVue from "../components/CursoPC.vue";
+export default {
+  data() {
+    return {
+      ancho: true
+    }
+  },
+  components: {
+    CursoPCVue,
+  },
+  methods : {
+    comprobarAncho(){
+      if(window.innerWidth <= 1152){
+        this.ancho = false
+      } else {
+        this.ancho = true
+      }
+    }
+  }
+};
 </script>
 
 <style scoped>
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
@@ -54,6 +78,25 @@ export default {};
   align-items: center;
   box-shadow: 10px 10px 30px -15px #685b4c;
   margin: 20px 0px 40px 0px;
+}
+
+.containerBotones {
+  margin-bottom: 10px;
+}
+
+.containerSearch {
+  border: 2px solid black;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 5px 10px;
+}
+
+.containerComponentes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #imgBanner {
@@ -81,7 +124,7 @@ h3 {
 
 .containerCursos {
   background: #fff0de;
-  height: 400px;
+  /* height: 400px; */
   width: 1300px;
   border-radius: 20px;
   display: grid;
@@ -92,9 +135,20 @@ h3 {
   margin-bottom: 20px;
 }
 
+.containerFiltros {
+  text-align: left;
+  margin-left: 20px;
+  margin-right: 50px;
+}
+
 #inputSearch {
   border-radius: 15px;
-  padding: 5px 10px;
+  border: none;
+  padding-left: 5px;
+}
+
+#inputSearch:focus {
+  outline: none;
 }
 
 button {
@@ -117,13 +171,23 @@ button {
 #btnAnterior:disabled {
   background: lightgray;
   color: black;
+  cursor: default;
 }
 
 .filtro {
   margin-top: 30px;
+  color: black;
+  font-size: 25px;
+  font-weight: bold;
 }
 
 .filtro2 {
   margin-top: 50px;
+}
+
+#componenteCursos {
+  margin-block: 20px;
+  margin-inline: 20px;
+  width: 275px;
 }
 </style>

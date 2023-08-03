@@ -7,21 +7,56 @@
         alt="No se pudo mostrar la imagen."
       />
     </router-link>
-    <router-link to="/cursos">Cursos</router-link>
-    <router-link to="/recursos">Recursos</router-link>
-    <router-link to="/contacto">Contacto</router-link>
-    <router-link to="/perfil">
+    <router-link v-if="ancho" to="/contacto">Contacto</router-link>
+    <router-link v-if="ancho" to="/perfil">
       <img
         id="imgPerfil"
         src="../store/usuario.png"
         alt="No se pudo mostrar la imagen."
       />
     </router-link>
+    <select v-if="!ancho" v-model="itemSeleccionado" @change="direccionarRuta">
+      <option value="" disabled>
+        <font-awesome-icon icon="fa-solid fa-bars" />
+      </option>
+      <option v-for="item in items" :value="item.value" :key="item.value">
+        {{ item.label }}
+      </option>
+    </select>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      ancho: true,
+      itemSeleccionado: '',
+      items: [
+        { value: 'contacto', label: 'Contacto', link: '/contacto' },
+        { value: 'perfil', label: 'Perfil', link: '/perfil' }
+      ]
+    };
+  },
+  mounted() {
+    window.addEventListener("resize", this.comprobarAncho);
+  },
+  methods: {
+    comprobarAncho() {
+      if (window.innerWidth <= 1200) {
+        this.ancho = false;
+      } else {
+        this.ancho = true;
+      }
+    },
+    direccionarRuta() {
+      const itemSeleccionado = this.items.find(item => item.value === this.itemSeleccionado);
+      if (itemSeleccionado) {
+        this.$router.push(itemSeleccionado.link);
+      }
+    }
+  },
+};
 </script>
 
 <style scoped>
