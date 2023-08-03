@@ -5,6 +5,7 @@
       <router-link to="/*">Participantes</router-link>
       <router-link to="/*">Horario</router-link>
       <router-link to="/*">Progreso</router-link>
+      <router-link to="/recursos">Recursos</router-link>
     </div>
     <hr />
     <div class="containerDescripcion">
@@ -46,7 +47,7 @@ export default {};
   background: #fff0de;
   border-radius: 10px 10px 0px 0px;
   padding: 15px;
-  width: 600px;
+  width: auto;
   margin-bottom: 0px;
 }
 

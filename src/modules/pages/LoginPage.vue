@@ -17,14 +17,23 @@
           <div class="remember-forgot">
             <label><input type="checkbox" /> Recuerdame</label>
             <!-- <a href="#">Olvido su contraseña?</a> -->
-            <router-link to="/" class="register-link">Olvido su contraseña?</router-link>
+            <router-link to="/" class="register-link"
+              >Olvido su contraseña?</router-link
+            >
           </div>
-          <button type="submit" class="btn">Ingresar</button>
+          <button @click="comprobarRegistro" type="submit" class="btn">
+            Ingresar
+          </button>
           <div class="login-register">
             <p>
               No tienes una cuenta?
               <!-- <a href="#" class="register-link">Registrate</a> -->
-              <router-link to="/registrarse" class="register-link">Registrate</router-link>
+              <router-link
+                @click="comprobarRegistro"
+                to="/registrarse"
+                class="register-link"
+                >Registrate</router-link
+              >
             </p>
           </div>
         </form>
@@ -34,7 +43,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      usuarioRegistrado: false,
+    };
+  },
+  methods: {
+    comprobarRegistro() {
+      this.usuarioRegistrado = true;
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -57,8 +77,8 @@ export default {};
   align-items: center;
   width: 400px;
   height: 440px;
-  background: #FFEBD2;
-  border: 6px solid #93E3D4;
+  background: #ffebd2;
+  border: 6px solid #93e3d4;
   border-radius: 20px;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 }
