@@ -3,25 +3,28 @@
     <div class="wrapper">
       <div class="form-box registro">
         <h2>Registro de Usuario</h2>
-        <form action="#/login">
+        <form @submit.prevent="registrarse">
           <div class="input-box">
             <!-- <span class="icon"><ion-icon name="lock-closed"></ion-icon></ion-icon></span> -->
-            <input type="text" required />
+            <input v-model="nombre" type="text" required />
             <label>Nombres Completos</label>
           </div>
           <div class="input-box">
             <!-- <span class="icon"><ion-icon name="mail"></ion-icon></span> -->
-            <input type="email" required />
+            <input v-model="correo" type="email" required />
             <label>Email</label>
           </div>
+          <label v-if="error==true" class="error-message">
+            Correo Ya Registrado
+          </label>
           <div class="input-box">
             <!-- <span class="icon"><ion-icon name="lock-closed"></ion-icon></ion-icon></span> -->
-            <input type="password" required />
+            <input v-model="contraseña" type="password" required />
             <label>Contraseña</label>
           </div>
           <div class="input-box">
             <!-- <span class="icon"><ion-icon name="lock-closed"></ion-icon></ion-icon></span> -->
-            <input type="text" required />
+            <input v-model="telefono" type="text" required />
             <label>Telefono</label>
           </div>
           <button type="submit" class="btn">Registrarse</button>
@@ -32,7 +35,32 @@
 </template>
 
 <script>
-export default {};
+import { ingresarUsuarioFachada } from '../helpers/UsuarioCliente';
+
+export default {
+  data(){
+    return {
+      nombre:null,
+      correo:null,
+      contraseña:null,
+      telefono:null,
+      error:null
+    }
+  },
+  methods:{
+    async registrarse(){
+      const data = {
+        nombre:this.nombre,
+        correo:this.correo,
+        contraseña:this.contraseña,
+        telefono:this.telefono
+      }
+        const mensaje=await ingresarUsuarioFachada(data);
+        console.log(mensaje)
+        this.error=mensaje;
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -116,5 +144,14 @@ export default {};
   font-size: 1.2em;
   color: #1d1b1b;
   line-height: 57px;
+}
+
+.error-message {
+  display: flex;
+  color: #ff5555;
+  font-weight: bold;
+  align-content: center;
+  justify-content: center;
+  margin: 14px;
 }
 </style>

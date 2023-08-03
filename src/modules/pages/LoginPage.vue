@@ -3,28 +3,37 @@
     <div class="wrapper">
       <div class="form-box login">
         <h2>Login</h2>
-        <form action="#">
+        <form @submit.prevent="verificarLogin">
           <div class="input-box">
             <!-- <span class="icon"><ion-icon name="mail"></ion-icon></span> -->
-            <input type="email" required />
+            <input v-model="correo" type="email" required />
             <label>Email</label>
           </div>
           <div class="input-box">
             <!-- <span class="icon"><ion-icon name="lock-closed"></ion-icon></ion-icon></span> -->
-            <input type="password" required />
+            <input v-model="contraseña" type="password" required />
             <label>Contraseña</label>
           </div>
+          <label v-if="error==true" class="error-message">
+            "Correo o Contraseña Incorrectos"
+          </label>
           <div class="remember-forgot">
             <label><input type="checkbox" /> Recuerdame</label>
             <!-- <a href="#">Olvido su contraseña?</a> -->
-            <router-link to="/" class="register-link">Olvido su contraseña?</router-link>
+            <router-link to="/" class="register-link"
+              >Olvido su contraseña?</router-link
+            >
           </div>
-          <button type="submit" class="btn">Ingresar</button>
+          <button type="submit" class="btn">
+            Ingresar
+          </button>
           <div class="login-register">
             <p>
               No tienes una cuenta?
               <!-- <a href="#" class="register-link">Registrate</a> -->
-              <router-link to="/registrarse" class="register-link">Registrate</router-link>
+              <router-link to="/registrarse" class="register-link"
+                >Registrate</router-link
+              >
             </p>
           </div>
         </form>
@@ -34,7 +43,28 @@
 </template>
 
 <script>
-export default {};
+import { loginUsuarioFachada } from "../helpers/UsuarioCliente";
+
+export default {
+  data() {
+    return {
+      correo: null,
+      contraseña: null,
+      error:false
+    };
+  },
+  methods: {
+    async verificarLogin() {
+      const data = {
+        correo: this.correo,
+        contraseña: this.contraseña,
+      };
+      const mensaje=await loginUsuarioFachada(data);
+      console.log("Mensaje en el login "+mensaje)
+      this.error=mensaje;
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -58,8 +88,8 @@ export default {};
   align-items: center;
   width: 400px;
   height: 440px;
-  background: #FFEBD2;
-  border: 6px solid #93E3D4;
+  background: #ffebd2;
+  border: 6px solid #93e3d4;
   border-radius: 20px;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 }
@@ -118,5 +148,15 @@ export default {};
   font-size: 1.2em;
   color: #1d1b1b;
   line-height: 57px;
+}
+
+.error-message {
+  display: flex;
+  color: #ff5555;
+  font-size: 1.2em;
+  font-weight: bold;
+  align-content: center;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 </style>
