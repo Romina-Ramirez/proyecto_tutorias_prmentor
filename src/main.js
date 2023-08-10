@@ -28,7 +28,7 @@ const analytics = getAnalytics(app);
 // Font awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faMagnifyingGlass, faBars, faSquarePhone, faBoxArchive, faDollarSign, faUserGroup, faCheck, faGem, faUnlock } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass, faBars, faSquarePhone, faBoxArchive, faDollarSign, faUserGroup, faCheck, faGem, faUnlock, faLock } from '@fortawesome/free-solid-svg-icons'
 import { faEnvelope, faCreditCard, faSquarePlus } from '@fortawesome/free-regular-svg-icons'
 import { faCcAmex, faCcDinersClub, faCcMastercard, faCcVisa, faFacebook } from '@fortawesome/free-brands-svg-icons'
 
@@ -49,5 +49,6 @@ library.add(faUnlock)
 library.add(faCcVisa)
 library.add(faCcAmex)
 library.add(faCcDinersClub)
+library.add(faLock)
 
 createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(router).mount('#app')
