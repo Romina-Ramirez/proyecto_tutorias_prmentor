@@ -17,7 +17,7 @@
       </p>
       <h1>0,00 USD</h1>
       <h4>al mes para una persona</h4>
-      <router-link to="/pago"><button id="button"></button></router-link>
+      <router-link to="/"><button id="button">Empieza ahora</button></router-link>
       <ul>
         ¿Qué incluye?
         <li>
@@ -175,8 +175,7 @@ export default {};
   grid-template-rows: 2% 25% 16% 7% 10% 10% ;
   align-items: top;
   justify-content: center;
-  padding-inline: 30px;
-  padding-top: 30px;
+  padding: 30px;
   background: #fff0de;
   border-radius: 20px;
   width: 25%;
