@@ -40,6 +40,10 @@ const routes = [
     {
         path: '/:pathMatch(.*)*',
         component: () => import('../modules/pages/NotFound.vue')
+    },
+    {
+        path: '/participantes',
+        component: () => import('../modules/pages/ParticipantesPage.vue')
     }
 ]
 

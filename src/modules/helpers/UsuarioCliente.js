@@ -21,6 +21,12 @@ export const eliminarEstudianteFachada = (id) => {
 
 }
 
+
+export const consultarTodosUsuariosFachada = async() => {
+    return await consultarTodosUsuarios();
+}
+
+
 const obtenerEstudianteAPI = async (cedula) => {
     const data = await fetch(`http://localhost:8081/API/V1.0/Matricula/estudiantes/${cedula}`).then(r => r.json());
     console.log(data);
@@ -61,4 +67,11 @@ const ingresarUsuario = async (bodyUsuario) => {
             booleano = true;
         });
         return booleano;
+}
+
+
+const consultarTodosUsuarios = async () => {
+    const data = axios.get(`http://localhost:8081/API/V1.0/Tutoria/usuarios`).then(r => r.data);
+    console.log(data);
+    return data;
 }
