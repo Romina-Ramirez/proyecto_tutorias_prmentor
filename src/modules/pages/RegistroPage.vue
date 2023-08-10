@@ -29,13 +29,21 @@
           </div>
           <button id="button" type="submit" class="btn">Registrarse</button>
         </form>
+        <button id="button" @click="registrarseConGoogle">Registrarse con Google</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ingresarUsuarioFachada } from "../helpers/UsuarioCliente";
+// import { ingresarUsuarioFachada } from "../helpers/UsuarioCliente";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
+
 export default {
   data() {
     return {
@@ -47,16 +55,49 @@ export default {
     };
   },
   methods: {
-    async registrarse() {
-      const data = {
-        nombre: this.nombre,
-        correo: this.correo,
-        contraseña: this.contraseña,
-        telefono: this.telefono,
-      };
-      const mensaje = await ingresarUsuarioFachada(data);
-      console.log(mensaje);
-      this.error = mensaje;
+    // async registrarse() {
+    //   const data = {
+    //     nombre: this.nombre,
+    //     correo: this.correo,
+    //     contraseña: this.contraseña,
+    //     telefono: this.telefono,
+    //   };
+    //   const mensaje = await ingresarUsuarioFachada(data);
+    //   console.log(mensaje);
+    //   this.error = mensaje;
+    // },
+
+    //metodo de registro de usuario con firebase
+    registrarse() {
+      //se llama al metodo getAuth y se registra con el correo y contrasenia ingresados
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, this.correo, this.contraseña)
+        .then((data) => {
+          console.log("Registro exitoso");
+
+          console.log(auth.currentUser);
+
+          this.$router.push("/login"); //redireccion a la pagina de login
+        })
+        .catch((error) => {
+          console.log(error.code);
+          alert(error.message);
+          this.error = error.message;
+        });
+    },
+
+    registrarseConGoogle() {
+      //se llama al metodo getAuth y se registra con el correo y contrasenia ingresados
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(getAuth(), provider)
+    .then((result)=>{
+        console.log(result.user);
+        this.$router.push("/");
+    })
+    .catch((error)=>{
+      //manejar el error
+      this.error=error.message
+    })
     },
   },
 };
@@ -81,7 +122,7 @@ export default {
   justify-content: center;
   align-items: center;
   width: 400px;
-  height: 500px;
+  height: 600px;
   background: #ffebd2;
   border: 6px solid #93e3d4;
   border-radius: 20px;
@@ -144,5 +185,9 @@ export default {
   align-content: center;
   justify-content: center;
   margin: 14px;
+}
+
+#button {
+  margin-top: 10px;
 }
 </style>

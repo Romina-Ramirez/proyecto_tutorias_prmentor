@@ -14,8 +14,8 @@
             <input v-model="contraseña" type="password" required />
             <label>Contraseña</label>
           </div>
-          <label v-if="error==true" class="error-message">
-            "Correo o Contraseña Incorrectos"
+          <label v-if="error" class="error-message">
+            {{this.error}}
           </label>
           <div class="remember-forgot">
             <label><input type="checkbox" /> Recuerdame</label>
@@ -24,9 +24,7 @@
               >Olvido su contraseña?</router-link
             >
           </div>
-          <button id="button" type="submit" class="btn">
-            Ingresar
-          </button>
+          <button id="button" type="submit" class="btn">Ingresar</button>
           <div class="login-register">
             <p>
               No tienes una cuenta?
@@ -44,23 +42,54 @@
 
 <script>
 import { loginUsuarioFachada } from "../helpers/UsuarioCliente";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 export default {
   data() {
     return {
       correo: null,
       contraseña: null,
-      error:false
+      error: null,
     };
   },
   methods: {
-    async verificarLogin() {
-      const data = {
-        correo: this.correo,
-        contraseña: this.contraseña,
-      };
-      const mensaje=await loginUsuarioFachada(data);
-      console.log("Mensaje en el login "+mensaje)
-      this.error=mensaje;
+    // async verificarLogin() {
+    //   const data = {
+    //     correo: this.correo,
+    //     contraseña: this.contraseña,
+    //   };
+    //   const mensaje=await loginUsuarioFachada(data);
+    //   console.log("Mensaje en el login "+mensaje)
+    //   this.error=mensaje;
+    // },
+
+    verificarLogin() {
+      //se llama al metodo getAuth y se registra con el correo y contrasenia ingresados
+      const auth = getAuth();
+      signInWithEmailAndPassword(auth, this.correo, this.contraseña)
+        .then((data) => {
+          console.log("Login exitoso");
+
+          console.log(auth.currentUser);
+
+          this.$router.push("/"); //redireccion a la pagina de login
+        })
+        .catch((error) => {
+          console.log(error.code);
+          switch (error.code) {
+            case "auth/invalid-email":
+              this.error = "Correo Incorrecto o No existente";
+              break;
+            case "auth/user-not-found":
+              this.error = "Ninguna cuenta con ese correo fue encontrada";
+              break;
+            case "auth/wrong-password":
+              this.error = "Contraseña Incorrecta";
+              break;
+            default:
+              this.error = "Correo o contraseña incorrectas";
+              break;
+          }
+        });
     },
   },
 };
