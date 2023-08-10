@@ -80,10 +80,6 @@ export default {
   margin: 20px 0px 40px 0px;
 }
 
-.containerBotones {
-  margin-bottom: 10px;
-}
-
 .containerSearch {
   border: 2px solid black;
   border-radius: 15px;

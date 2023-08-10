@@ -39,7 +39,7 @@
       <div class="containerAcademico containers">
         <h2>Perfil Académico</h2>
         <hr />
-        <h3>Nivel educativo Actual: </h3>
+        <h3>Nivel educativo Actual:</h3>
         <h3>Institución educativa:</h3>
         <h3>Área de estudio</h3>
       </div>
@@ -53,41 +53,37 @@
           <font-awesome-icon icon="fa-solid fa-box-archive" />
           Paquete 1
           <font-awesome-icon icon="fa-solid fa-dollar-sign" />
-          8.90
+          9.99
         </h4>
         <h4>
           <font-awesome-icon icon="fa-solid fa-box-archive" />
           Paquete 2
           <font-awesome-icon icon="fa-solid fa-dollar-sign" />
-          8.90
+          14.99
         </h4>
-        <h4>
-          <font-awesome-icon icon="fa-regular fa-credit-card" />
-          Método de pago: 5555 xxxx xxxx 4321
-          <font-awesome-icon icon="fa-brands fa-cc-mastercard" />
-        </h4>
-        <router-link to="/*">
-          <font-awesome-icon icon="fa-regular fa-pen-to-square" />
-          Editar Método de pago
+        
+        <router-link to="/paquetes">
+          <font-awesome-icon icon="fa-regular fa-square-plus" /> 
+          Activar paquetes
         </router-link>
       </div>
       <div class="containerEquipos containers">
-        <h2>EQUIPOS</h2>
+        <h2>Mis cursos</h2>
         <hr />
         <h4>
           <font-awesome-icon icon="fa-solid fa-user-group" />
-          Equipo 1: Matemáticas - Impartida por: Pablo Suntaxi
+          Matemáticas - Impartida por: Pablo Suntaxi
         </h4>
         <h4>
-          <font-awesome-icon icon="fa-solid fa-user-group" /> 
-          Equipo 2: Matemáticas - Impartida por: Pablo Suntaxi
+          <font-awesome-icon icon="fa-solid fa-user-group" />
+          Matemáticas - Impartida por: Pablo Suntaxi
         </h4>
         <h4>
-          <font-awesome-icon icon="fa-solid fa-user-group" /> 
+          <font-awesome-icon icon="fa-solid fa-user-group" />
           Equipo 3: Matemáticas - Impartida por: Pablo Suntaxi
         </h4>
         <h4>
-          <font-awesome-icon icon="fa-solid fa-user-group" /> 
+          <font-awesome-icon icon="fa-solid fa-user-group" />
           Equipo 4: Matemáticas - Impartida por: Pablo Suntaxi
         </h4>
       </div>

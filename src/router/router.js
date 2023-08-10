@@ -18,10 +18,6 @@ const routes = [
         component: () => import('../modules/pages/Recursos.vue')
     },
     {
-        path: '/contacto',
-        component: () => import('../modules/pages/Contacto.vue')
-    },
-    {
         path: '/perfil',
         component: () => import('../modules/pages/Perfil.vue')
     },
@@ -32,6 +28,14 @@ const routes = [
     {
         path: '/registrarse',
         component: () => import('../modules/pages/RegistroPage.vue')
+    },
+    {
+        path: '/pago',
+        component: () => import('../modules/pages/Pago.vue')
+    },
+    {
+        path: '/paquetes',
+        component: () => import('../modules/pages/Paquetes.vue')
     },
     {
         path: '/:pathMatch(.*)*',

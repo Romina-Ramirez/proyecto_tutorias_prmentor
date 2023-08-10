@@ -7,7 +7,6 @@
         alt="No se pudo mostrar la imagen."
       />
     </router-link>
-    <router-link v-if="ancho" to="/contacto">Contacto</router-link>
     <router-link v-if="ancho && !usuarioRegistrado" to="/perfil">
       <img
         id="imgPerfil"
@@ -15,7 +14,7 @@
         alt="No se pudo mostrar la imagen."
       />
     </router-link>
-    <router-link v-if="ancho && usuarioRegistrado" to="/login">Login</router-link>
+    <router-link v-if="ancho && !usuarioRegistrado" to="/login">Login</router-link>
     <select v-if="!ancho" v-model="itemSeleccionado" @change="direccionarRuta">
       <option value="" disabled>Menú</option>
       <option v-for="item in items" :value="item.value" :key="item.value">
@@ -32,7 +31,6 @@ export default {
       ancho: true,
       itemSeleccionado: "",
       items: [
-        { value: "contacto", label: "Contacto", link: "/contacto" },
         { value: "perfil", label: "Perfil", link: "/perfil" },
       ],
     };
