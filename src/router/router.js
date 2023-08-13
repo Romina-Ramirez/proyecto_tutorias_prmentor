@@ -44,7 +44,15 @@ const routes = [
     {
         path: '/participantes',
         component: () => import('../modules/pages/ParticipantesPage.vue')
-    }
+    },
+    {
+        path: '/zoom',
+        component: () => import('../modules/pages/ZoomIntegration.vue')
+    },
+    // {
+    //     path: '/pruebazoom',
+    //     component: () => import('../modules/pages/Zoom2.vue')
+    // }
 ]
 
 const router = createRouter({

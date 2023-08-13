@@ -8,11 +8,20 @@
 
     <p>
       Correo electrónico :
-      <a href="pasuntaxih@uce.edu.ec">pasuntaxih@uce.edu.ec</a>
+      <a href="mailto:prmentoruce@gmail.com">prmentoruce@gmail.com</a>
     </p>
 
     <p>Redes sociales</p>
-    <font-awesome-icon icon="fa-brands fa-facebook" />
+    <a
+      href="https://www.facebook.com/profile.php?id=61550039305560&mibextid=ZbWKwL"
+    >
+      <font-awesome-icon icon="fa-brands fa-facebook" />
+    </a>
+    <a
+      href="https://instagram.com/prmentor?utm_source=qr&igshid=ZDc4ODBmNjlmNQ%3D%3D"
+    >
+      <font-awesome-icon icon="fa-brands fa-instagram" />
+    </a>
   </div>
 </template>
 
