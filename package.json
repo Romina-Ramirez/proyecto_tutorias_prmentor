@@ -20,6 +20,7 @@
     "firebase": "^10.1.0",
     "fullcalendar": "^6.1.8",
     "jsrsasign": "^10.8.6",
+    "sweetalert2": "^11.7.23",
     "vue": "^3.2.13",
     "vue-router": "^4.2.4",
     "vuetify": "^3.3.11"
