@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import { loginUsuarioFachada } from "../helpers/UsuarioCliente";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 export default {
   data() {
@@ -52,15 +51,6 @@ export default {
     };
   },
   methods: {
-    // async verificarLogin() {
-    //   const data = {
-    //     correo: this.correo,
-    //     contraseña: this.contraseña,
-    //   };
-    //   const mensaje=await loginUsuarioFachada(data);
-    //   console.log("Mensaje en el login "+mensaje)
-    //   this.error=mensaje;
-    // },
 
     verificarLogin() {
       //se llama al metodo getAuth y se registra con el correo y contrasenia ingresados

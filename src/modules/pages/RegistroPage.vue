@@ -6,12 +6,12 @@
         <form @submit.prevent="registrarse">
           <div class="input-box">
             <!-- <span class="icon"><ion-icon name="lock-closed"></ion-icon></ion-icon></span> -->
-            <input v-model="nombre" type="text" required />
+            <input v-model="usuario.nombre" type="text" required />
             <label>Nombres Completos</label>
           </div>
           <div class="input-box">
             <!-- <span class="icon"><ion-icon name="mail"></ion-icon></span> -->
-            <input v-model="correo" type="email" required />
+            <input v-model="usuario.correo" type="email" required />
             <label>Email</label>
           </div>
           <label v-if="error == true" class="error-message">
@@ -19,64 +19,62 @@
           </label>
           <div class="input-box">
             <!-- <span class="icon"><ion-icon name="lock-closed"></ion-icon></ion-icon></span> -->
-            <input v-model="contraseña" type="password" required />
+            <input v-model="usuario.contraseña" type="password" required />
             <label>Contraseña</label>
           </div>
           <div class="input-box">
             <!-- <span class="icon"><ion-icon name="lock-closed"></ion-icon></ion-icon></span> -->
-            <input v-model="telefono" type="text" required />
+            <input v-model="usuario.telefono" type="text" required />
             <label>Teléfono</label>
           </div>
           <button id="button" type="submit" class="btn">Registrarse</button>
         </form>
-        <button id="button" @click="registrarseConGoogle">Registrarse con Google</button>
+        <button id="button" @click="registrarseConGoogle">
+          Registrarse con Google
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import { ingresarUsuarioFachada } from "../helpers/UsuarioCliente";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
 } from "firebase/auth";
+import { getDatabase, ref as dRef, set, push} from "firebase/database";
 
 export default {
   data() {
     return {
-      nombre: null,
-      correo: null,
-      contraseña: null,
-      telefono: null,
       error: null,
+      usuario: {
+        nombre: "",
+        rol: "estudiante",
+        correo: "",
+        horas_disponibles: 0,
+        foto_perfil: "",
+        telefono: "",
+        contraseña: "",
+      },
     };
   },
   methods: {
-    // async registrarse() {
-    //   const data = {
-    //     nombre: this.nombre,
-    //     correo: this.correo,
-    //     contraseña: this.contraseña,
-    //     telefono: this.telefono,
-    //   };
-    //   const mensaje = await ingresarUsuarioFachada(data);
-    //   console.log(mensaje);
-    //   this.error = mensaje;
-    // },
-
     //metodo de registro de usuario con firebase
     registrarse() {
       //se llama al metodo getAuth y se registra con el correo y contrasenia ingresados
       const auth = getAuth();
-      createUserWithEmailAndPassword(auth, this.correo, this.contraseña)
+      createUserWithEmailAndPassword(
+        auth,
+        this.usuario.correo,
+        this.usuario.contraseña
+      )
         .then((data) => {
           console.log("Registro exitoso");
-
+          this.agregarUsuario();
           console.log(auth.currentUser);
-
           this.$router.push("/login"); //redireccion a la pagina de login
         })
         .catch((error) => {
@@ -88,16 +86,41 @@ export default {
 
     registrarseConGoogle() {
       //se llama al metodo getAuth y se registra con el correo y contrasenia ingresados
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(getAuth(), provider)
-    .then((result)=>{
-        console.log(result.user);
-        this.$router.push("/");
-    })
-    .catch((error)=>{
-      //manejar el error
-      this.error=error.message
-    })
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(getAuth(), provider)
+        .then((result) => {
+          const data = result.user;
+          console.log(data);
+          this.usuario.correo = data.email;
+          this.usuario.nombre = data.displayName;
+          this.usuario.telefono =
+            data.phoneNumber !== null ? data.phoneNumber : "";
+          this.usuario.contraseña = "";
+          this.usuario.foto_perfil = data.photoURL == null ? data.photoURL : "";
+          this.agregarUsuario();
+          this.$router.push("/");
+
+          console.log("registro exitoso");
+        })
+        .catch((error) => {
+          //manejar el error
+          this.error = error.message;
+        });
+    },
+
+    agregarUsuario() {
+      const db = getDatabase();
+      const usuariosRef = dRef(db, "usuarios/");
+
+      const nuevoUsuarioRef = push(usuariosRef); // Generar un nuevo ID único para el usuario
+
+      set(nuevoUsuarioRef, this.usuario)
+        .then(() => {
+          console.log("Usuario agregado exitosamente a Firebase.");
+        })
+        .catch((error) => {
+          console.error("Error al agregar usuario a Firebase:", error);
+        });
     },
   },
 };

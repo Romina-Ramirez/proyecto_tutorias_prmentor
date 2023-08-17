@@ -17,7 +17,9 @@
       </p>
       <h1>0,00 USD</h1>
       <h4>al mes para una persona</h4>
-      <router-link to="/"><button id="button">Empieza ahora</button></router-link>
+      <router-link to="/"
+        ><button id="button">Empieza ahora</button></router-link
+      >
       <ul>
         ¿Qué incluye?
         <li>
@@ -172,7 +174,7 @@ export default {};
 
 .containerPaquete {
   display: grid;
-  grid-template-rows: 2% 25% 16% 7% 10% 10% ;
+  grid-template-rows: 2% 25% 16% 7% 10% 10%;
   align-items: top;
   justify-content: center;
   padding: 30px;

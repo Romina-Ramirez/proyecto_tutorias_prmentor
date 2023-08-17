@@ -14,6 +14,7 @@ import { getAnalytics } from "firebase/analytics";
 const firebaseConfig = {
   apiKey: "AIzaSyAAq55Gv5rv0Zwz4MS--y2T4uLyXxPljso",
   authDomain: "prmentor-tutorias.firebaseapp.com",
+  databaseURL: "https://prmentor-tutorias-default-rtdb.firebaseio.com",
   projectId: "prmentor-tutorias",
   storageBucket: "prmentor-tutorias.appspot.com",
   messagingSenderId: "474494154102",

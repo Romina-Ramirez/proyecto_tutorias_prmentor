@@ -18,6 +18,7 @@
     "axios": "^1.4.0",
     "core-js": "^3.8.3",
     "firebase": "^10.1.0",
+    "fullcalendar": "^6.1.8",
     "jsrsasign": "^10.8.6",
     "vue": "^3.2.13",
     "vue-router": "^4.2.4",
