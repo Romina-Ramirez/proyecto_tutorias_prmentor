@@ -3,7 +3,7 @@
     <h1>Matemáticas</h1>
     <div v-if="!inscrito" class="containerOpciones">
       <router-link to="/participantes">Participantes</router-link>
-      <router-link to="/*">Horario</router-link>
+      <router-link to="/horario">Horario</router-link>
       <router-link to="/*">Progreso</router-link>
       <router-link to="/recursos">Recursos</router-link>
     </div>
