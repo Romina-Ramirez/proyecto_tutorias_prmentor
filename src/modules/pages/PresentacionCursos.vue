@@ -24,6 +24,7 @@
       </div>
       <div class="containerComponentes">
         <CursoPCVue id="componenteCursos" />
+        
       </div>
     </div>
     <div class="containerBotones">

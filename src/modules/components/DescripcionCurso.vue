@@ -3,14 +3,11 @@
     <div class="containerDescripcion">
         <img
           id="materiaImg"
-          src="https://img.freepik.com/vector-premium/doodle-matematicas-formulas-matematicas-dibujadas-mano-pizarra-portada-libro-banner-fondo-etc-industria-educacion-teoria-matematica-educacion-escolar_93083-3366.jpg"
+          :src=materia.imagen
           alt="No se puede mostrar la imagen."
         />
       <p>
-        El curso en línea de matemáticas es una experiencia educativa
-        interactiva y accesible. Con contenido actualizado y ejercicios
-        prácticos, ofrece una sólida comprensión de conceptos clave, desde
-        álgebra hasta cálculo.
+      {{ materia.descripcionl }}
       </p>
     </div>
     <div class="containerTutor">
@@ -20,7 +17,7 @@
         src="https://cdn-icons-png.flaticon.com/128/2566/2566158.png"
         alt="No se puede mostrar la imagen."
       />
-      <h3>Nombre: Pablo Suntaxi</h3>
+      <h3>Nombre: {{ materia.tutor }}</h3>
       <h3>Email: pasuntaxih@uce.edu.ec</h3>
     </div>
     <button id="button">Inscribirse</button>
@@ -28,7 +25,14 @@
 </template>
 
 <script>
-export default {};
+import { mapState } from "vuex";
+
+export default {
+
+  computed: {
+    ...mapState(["materia"]),
+  },
+};
 </script>
 
 <style scoped>

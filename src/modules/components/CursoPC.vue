@@ -1,10 +1,10 @@
 <template>
   <div class="casilleroCursos">
-    <router-link id="cursoRedir" to="/cursoMatematica">
+    <router-link id="cursoRedir" to="/cursoMatematica" @click="irAMateria(1)">
       <div class="containerCurso">
         <img
           id="materiaImg"
-          :src=m2.imagen
+          :src=m1.imagen
           alt="No se puede mostrar la imagen."
         />
         <h3>{{ m1.nombre }}</h3>
@@ -25,7 +25,7 @@
       </div>
     </router-link>
 
-    <router-link id="cursoRedir" to="/cursoMatematica">
+    <router-link id="cursoRedir" to="/cursoMatematica" @click="irAMateria(2)">
       <div class="containerCurso">
         <img
           id="materiaImg"
@@ -50,7 +50,7 @@
       </div>
     </router-link>
 
-    <router-link id="cursoRedir" to="/cursoMatematica">
+    <router-link id="cursoRedir" to="/cursoMatematica" @click="irAMateria(3)">
       <div class="containerCurso">
         <img
           id="materiaImg"
@@ -75,7 +75,7 @@
       </div>
     </router-link>
 
-    <router-link id="cursoRedir" to="/cursoMatematica">
+    <router-link id="cursoRedir" to="/cursoMatematica" @click="irAMateria(4)" >
       <div class="containerCurso">
         <img
           id="materiaImg"
@@ -100,7 +100,7 @@
       </div>
     </router-link>
 
-    <router-link id="cursoRedir" to="/cursoMatematica">
+    <router-link id="cursoRedir" to="/cursoMatematica" @click="irAMateria(5)">
       <div class="containerCurso">
         <img
           id="materiaImg"
@@ -125,7 +125,7 @@
       </div>
     </router-link>
 
-    <router-link id="cursoRedir" to="/cursoMatematica">
+    <router-link id="cursoRedir" to="/cursoMatematica" @click="irAMateria(6)">
       <div class="containerCurso">
         <img
           id="materiaImg"
@@ -154,6 +154,9 @@
 
 <script>
 import { getDatabase, ref, child, get } from "firebase/database";
+
+import { mapState, mapMutations } from "vuex";
+
 export default {
   props: {
     nombre: {
@@ -173,6 +176,9 @@ export default {
       required: true,
     },
   },
+  computed: {
+    ...mapState(["materia"]),
+  },
 
   data() {
     return {
@@ -187,9 +193,32 @@ export default {
     };
   },
   methods: {
+
+    ...mapMutations(["setMateria"]),
+    cambiarMateria(objeto) {
+      const nuevoObjeto = objeto;
+      this.setMateria(nuevoObjeto);
+    },
     obtenerMaterias(numero) {
       return materias;
     },
+
+    irAMateria(nombreMateria) {
+      const materias = {
+        1: this.m1,
+        2: this.m2,
+        3: this.m3,
+        4: this.m4,
+        5: this.m5,
+        6: this.m6,
+
+      };
+
+      const objeto = materias[nombreMateria]
+      this.cambiarMateria(objeto)
+    },
+
+    
   },
 
   mounted() {
