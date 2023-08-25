@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Matemáticas</h1>
+    <h1>{{materia.nombre}}</h1>
     <div v-if="!inscrito" class="containerOpciones">
       <router-link to="/participantes">Participantes</router-link>
       <router-link to="/horario">Horario</router-link>
@@ -16,6 +16,8 @@
 
 <script>
 import DescripcionCurso from '../components/DescripcionCurso.vue';
+import { mapState } from "vuex";
+
 export default {
   components: {
     DescripcionCurso,
@@ -24,6 +26,9 @@ export default {
     return {
       inscrito: false,
     }
+  },
+  computed: {
+    ...mapState(["materia"]),
   }
 };
 </script>

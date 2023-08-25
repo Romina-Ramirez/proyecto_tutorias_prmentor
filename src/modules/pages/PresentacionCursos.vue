@@ -23,9 +23,8 @@
         <h3>MÁS FILTROS</h3>
       </div>
       <div class="containerComponentes">
-          <CursoPCVue id="componenteCursos" />
-          <CursoPCVue id="componenteCursos" />
-          <CursoPCVue id="componenteCursos" />
+        <CursoPCVue id="componenteCursos" />
+        
       </div>
     </div>
     <div class="containerBotones">
@@ -42,20 +41,23 @@ import CursoPCVue from "../components/CursoPC.vue";
 export default {
   data() {
     return {
-      ancho: true
-    }
+      ancho: true,
+    };
   },
   components: {
     CursoPCVue,
   },
-  methods : {
-    comprobarAncho(){
-      if(window.innerWidth <= 1152){
-        this.ancho = false
+  methods: {
+    comprobarAncho() {
+      if (window.innerWidth <= 1152) {
+        this.ancho = false;
       } else {
-        this.ancho = true
+        this.ancho = true;
       }
-    }
+    },
+  },
+  mounted(){
+    console.log(this.$route.params.dato)
   }
 };
 </script>

@@ -17,23 +17,22 @@
   </ul>
 
   <div>
-    <h1>Dashboard</h1>
+    <h1>Archivos</h1>
     <!-- <h2>{{ userData }}</h2> -->
     <div v-if="totalitems != totalLoaded" class="loading">Loading&#8230;</div>
-    <h2>User Files</h2>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
+    
+    <div>
       <div
         class="col"
         v-for="(file, index) in userFilesList"
         :key="file + index"
       >
-      
-        <div class="card shadow-sm">
-          <img :src="file.icono" />
+        <div class="card">
+          <img :src="file.icono" width="100" alt="Icono" />
 
           <div class="card-body">
             <h5 class="card-text">{{ file.name }}</h5>
-            <div class="d-flex justify-content-between align-items-center">
+            <div>
               <div class="btn-group">
                 <a :href="file.url" class="btn btn-sm btn-outline-secondary"
                   >Download</a
@@ -41,7 +40,9 @@
               </div>
             </div>
           </div>
+          
         </div>
+
       </div>
     </div>
   </div>
@@ -62,7 +63,6 @@ import formats from "../helpers/files";
 
 export default {
   data() {
-    
     return {
       nombre: null,
       listado: null,
@@ -86,6 +86,7 @@ export default {
         console.log("subido");
       });
     },
+
     selectFile(event) {
       this.progress = 0;
       console.log(event.target.files);
@@ -126,8 +127,6 @@ export default {
                 title: "Archivo " + res.metadata.name + " Subido",
                 showConfirmButton: false,
                 timer: 1500,
-
-          
               });
             });
           });
@@ -136,6 +135,7 @@ export default {
         console.log(err);
       }
     },
+
     async listAllm() {
       try {
         const storage = getStorage();
@@ -194,10 +194,19 @@ export default {
 </script>
 
 <style scoped>
+
+.col {
+  display: flex;
+  grid-template-columns: repeat(3, 300px);
+
+  align-items: center;
+  justify-content: center;
+}
 .card {
-  background-color: #ffffff;
+  background-color: #27dbd5;
   border-radius: 8px;
-  padding: 16px;
+  margin-bottom: 10px;
+  width: 200px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 

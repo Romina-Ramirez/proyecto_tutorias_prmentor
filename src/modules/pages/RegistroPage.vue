@@ -58,6 +58,9 @@ export default {
         foto_perfil: "",
         telefono: "",
         contraseña: "",
+        institucion:"",
+        nivelEd:"",
+        carrera:""
       },
     };
   },
