@@ -15,7 +15,7 @@
             <label>Contraseña</label>
           </div>
           <label v-if="error" class="error-message">
-            {{this.error}}
+            {{ this.error }}
           </label>
           <div class="remember-forgot">
             <label><input type="checkbox" /> Recuerdame</label>
@@ -41,7 +41,9 @@
 </template>
 
 <script>
+import { getDatabase, ref, child, get } from "firebase/database";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -50,8 +52,15 @@ export default {
       error: null,
     };
   },
+   computed: {
+    ...mapState(["objetoCompartido"]),
+  },
   methods: {
-
+     ...mapMutations(["setObjetoCompartido"]),
+    cambiarObjetoCompartido(objeto) {
+      const nuevoObjeto = objeto;
+      this.setObjetoCompartido(nuevoObjeto);
+    },
     verificarLogin() {
       //se llama al metodo getAuth y se registra con el correo y contrasenia ingresados
       const auth = getAuth();
@@ -60,8 +69,39 @@ export default {
           console.log("Login exitoso");
 
           console.log(auth.currentUser);
+          const dato = auth.currentUser.email;
+          //this.$router.push(`/inicio/${dato}`); //redireccion a la pagina de login
 
-          this.$router.push("/"); //redireccion a la pagina de login
+          //Aqui se busca el usuario para compartirle con los demas componentes
+          const dbRef = ref(getDatabase());
+          get(child(dbRef, `usuarios/`))
+            .then((snapshot) => {
+              if (snapshot.exists()) {
+                console.log("resultado: ", snapshot.val());
+                const usuariosFiltrados = Object.entries(snapshot.val())
+                  .filter(
+                    ([clave, usuario]) => usuario.correo === this.correo
+                  )
+                  .map(([clave, usuario]) => ({ clave, usuario })); // Crear un nuevo objeto con clave y valor
+
+                if (usuariosFiltrados.length > 0) {
+                  const usuarioFiltrado = usuariosFiltrados[0];
+                  this.cambiarObjetoCompartido(usuarioFiltrado);
+                  console.log(usuarioFiltrado);
+                } else {
+                  console.log(
+                    "No se encontraron usuarios con el correo buscado."
+                  );
+                }
+              } else {
+                console.log("No hay datos disponibles");
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+
+          this.$router.push({ path: `/inicio/${dato}` });
         })
         .catch((error) => {
           console.log(error.code);

@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import './css/estilos.css'
 import router from './router/router'
+import store from './modules/store/index'
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -62,4 +63,4 @@ library.add(faCcDinersClub)
 library.add(faLock)
 library.add(faInstagram)
 
-createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(router).mount('#app')
+createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(router).use(store).mount('#app')

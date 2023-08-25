@@ -5,17 +5,22 @@
         <div>
           <img
             id="imgPerfil"
-            src="../store/usuario.png"
+            :src="imagen_perfil"
             alt="No se pudo mostrar la imagen."
           />
         </div>
         <div>
-          <h2>Michael García</h2>
-          <h3>Estudiante</h3>
+          <h2>{{ objetoCompartido.usuario.nombre }}</h2>
+          <h3>{{ objetoCompartido.usuario.rol }}</h3>
           <h3>
             <font-awesome-icon icon="fa-regular fa-envelope" />
-            msgarciar@uce.edu.ec
+            {{ objetoCompartido.usuario.correo }}
           </h3>
+          <h3>
+            <font-awesome-icon icon="fa-regular fa-phone" />
+            {{ objetoCompartido.usuario.telefono }}
+          </h3>
+          <button class="edit">Editar Perfil</button>
         </div>
       </div>
       <div class="containerAcerca containers">
@@ -61,9 +66,9 @@
           <font-awesome-icon icon="fa-solid fa-dollar-sign" />
           14.99
         </h4>
-        
+
         <router-link to="/paquetes">
-          <font-awesome-icon icon="fa-regular fa-square-plus" /> 
+          <font-awesome-icon icon="fa-regular fa-square-plus" />
           Activar paquetes
         </router-link>
       </div>
@@ -92,7 +97,20 @@
 </template>
 
 <script>
-export default {};
+import { mapState } from "vuex";
+export default {
+  data() {
+    return {
+      imagen_perfil: null,
+    };
+  },
+  computed: {
+    ...mapState(["objetoCompartido"]),
+  },
+  mounted() {
+    this.imagen_perfil = this.objetoCompartido.usuario.foto_perfil;
+  },
+};
 </script>
 
 <style scoped>
@@ -117,6 +135,7 @@ export default {};
 .containerDatos {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 p {
@@ -126,5 +145,22 @@ p {
 #imgPerfil {
   width: 150px;
   margin-right: 100px;
+  border: 2px solid black;
+  border-radius: 20px;
+}
+
+.edit {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: 1px solid #3498db;
+  background-color: #3498db;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.edit:hover {
+  background-color: #2980b9;
+  border-color: #2980b9;
 }
 </style>
