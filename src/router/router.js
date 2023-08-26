@@ -49,6 +49,10 @@ const routes = [
         path: '/zoom',
         component: () => import('../modules/pages/ZoomIntegration.vue')
     },
+    {
+        path: '/horario',
+        component: () => import('../modules/pages/HorarioPage.vue')
+    },
     // {
     //     path: '/pruebazoom',
     //     component: () => import('../modules/pages/Zoom2.vue')

@@ -93,5 +93,6 @@ a {
   left: 0;
   width: 100%;
   border-bottom: 2px solid #00afa9;
+  z-index: 1000;
 }
 </style>
