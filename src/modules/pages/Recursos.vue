@@ -60,6 +60,7 @@ import {
 
 import Swal from "sweetalert2";
 import formats from "../helpers/files";
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -77,15 +78,11 @@ export default {
   },
 
   components: {},
+  computed: {
+    ...mapState(["materia"]),
+  },
   methods: {
-    upload: function () {
-      const storage = getStorage();
-
-      const storageRef = ref(storage, `archivos/${this.nombre}`);
-      uploadBytes(storageRef, this.$refs.myfile.files[0]).then((snapshot) => {
-        console.log("subido");
-      });
-    },
+ 
 
     selectFile(event) {
       this.progress = 0;
@@ -108,7 +105,7 @@ export default {
           );
           const storageRef = ref(
             storage,
-            "archivos" + "/" + this.selectedFile[i].name
+            this.materia.recurso + this.selectedFile[i].name
           );
           this.totalBytes += this.selectedFile[i].size;
           const uploadTask = uploadBytesResumable(
@@ -141,7 +138,7 @@ export default {
         const storage = getStorage();
         //const auth = getAuth();
 
-        const storageRef = ref(storage, "archivos/");
+        const storageRef = ref(storage, this.materia.recurso);
 
         listAll(storageRef).then((res) => {
           console.log(res);
