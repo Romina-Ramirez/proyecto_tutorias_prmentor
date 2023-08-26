@@ -1,4 +1,5 @@
 <template>
+<div>
   <h1>Subir Archivos</h1>
   <input type="file" @change="selectFile" placeholder="dddd" />
 
@@ -15,34 +16,27 @@
       {{ file.name }}
     </li>
   </ul>
-
   <div>
     <h1>Archivos</h1>
     <!-- <h2>{{ userData }}</h2> -->
     <div v-if="totalitems != totalLoaded" class="loading">Loading&#8230;</div>
-    
     <div>
       <div
         class="col"
         v-for="(file, index) in userFilesList"
-        :key="file + index"
-      >
+        :key="file + index">
         <div class="card">
           <img :src="file.icono" width="100" alt="Icono" />
-
           <div class="card-body">
             <h5 class="card-text">{{ file.name }}</h5>
             <div>
               <div class="btn-group">
                 <a :href="file.url" class="btn btn-sm btn-outline-secondary"
-                  >Download</a
-                >
+                  >Download</a>
               </div>
             </div>
           </div>
-          
         </div>
-
       </div>
     </div>
   </div>
@@ -82,8 +76,6 @@ export default {
     ...mapState(["materia"]),
   },
   methods: {
- 
-
     selectFile(event) {
       this.progress = 0;
       console.log(event.target.files);
@@ -191,7 +183,6 @@ export default {
 </script>
 
 <style scoped>
-
 .col {
   display: flex;
   grid-template-columns: repeat(3, 300px);
