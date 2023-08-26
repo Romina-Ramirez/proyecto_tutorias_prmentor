@@ -3,7 +3,7 @@ import { createStore } from 'vuex';
 export default createStore({
   state: {
     objetoCompartido: null,
-    materia: null
+    materia: null,
   },
   mutations: {
     setObjetoCompartido(state, objeto) {

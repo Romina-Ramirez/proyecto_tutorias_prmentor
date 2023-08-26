@@ -60,7 +60,9 @@ export default {
         contraseña: "",
         institucion:"",
         nivelEd:"",
-        carrera:""
+        carrera:"",
+        fecha_exp:"",
+        nroTarjeta:""
       },
     };
   },

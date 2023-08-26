@@ -8,21 +8,22 @@
           <label>Nombres Completos</label>
         </div>
         <div class="input-box">
-          <input v-model="usuario.telefono" type="text" required/>
+          <input v-model="usuario.telefono" type="text" required />
           <label>Teléfono</label>
         </div>
         <div class="input-box">
-          <input v-model="usuario.nivelEd" type="text"/>
+          <input v-model="usuario.nivelEd" type="text" />
           <label>Nivel educativo Actual</label>
         </div>
         <div class="input-box">
-          <input v-model="usuario.institucion" type="text"/>
+          <input v-model="usuario.institucion" type="text" />
           <label>Institucion Educativa</label>
         </div>
         <div class="input-box">
-          <input v-model="usuario.carrera" type="text"/>
+          <input v-model="usuario.carrera" type="text" />
           <label>Carrera o Area de Estudio</label>
         </div>
+
         <button id="button" type="submit" class="btn">Actualizar Datos</button>
       </form>
     </div>
@@ -30,44 +31,52 @@
 </template>
 
 <script>
-import { getDatabase, ref as dRef, set, push } from "firebase/database";
-
+import { getDatabase, ref, child, push, update } from "firebase/database";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
-      error: null,
       usuario: {
         nombre: "",
         telefono: "",
-        institucion:"",
-        nivelEd:"",
-        carrera:""
+        institucion: "",
+        nivelEd: "",
+        carrera: "",
       },
     };
   },
+  computed: {
+    ...mapState(["objetoCompartido"]),
+  },
   methods: {
-    //metodo de registro de usuario con firebase
+    //metodo de para acatualizar los datos de la base
     actualizar() {
-      //se llama al metodo getAuth y se registra con el correo y contrasenia ingresados
-      const auth = getAuth();
-      createUserWithEmailAndPassword(
-        auth,
-        this.usuario.correo,
-        this.usuario.contraseña
-      )
-        .then((data) => {
-          console.log("Registro exitoso");
-          this.agregarUsuario();
-          console.log(auth.currentUser);
-          this.$router.push("/login"); //redireccion a la pagina de login
-        })
-        .catch((error) => {
-          console.log(error.code);
-          alert(error.message);
-          this.error = error.message;
-        });
+      const db = getDatabase();
+
+      this.objetoCompartido.usuario.nombre = this.usuario.nombre;
+      this.objetoCompartido.usuario.telefono = this.usuario.telefono;
+      this.objetoCompartido.usuario.institucion = this.usuario.institucion;
+      this.objetoCompartido.usuario.nivelEd = this.usuario.nivelEd;
+      this.objetoCompartido.usuario.carrera = this.usuario.carrera;
+
+      // A post entry.
+      const postData = this.objetoCompartido.usuario
+
+      // Write the new post's data simultaneously in the posts list and the user's post list.
+      const updates = {};
+      updates["/usuarios/" + this.objetoCompartido.clave] = postData;
+      const retorno = update(ref(db), updates);
+      console.log(retorno);
+      this.$router.push("/perfil")
     },
-  }
+  },
+  mounted() {
+    (this.usuario.nombre = this.objetoCompartido.usuario.nombre),
+      (this.usuario.telefono = this.objetoCompartido.usuario.telefono),
+      (this.usuario.institucion = this.objetoCompartido.usuario.institucion),
+      (this.usuario.nivelEd = this.objetoCompartido.usuario.nivelEd),
+      (this.usuario.carrera = this.objetoCompartido.usuario.carrera);
+  },
 };
 </script>
 

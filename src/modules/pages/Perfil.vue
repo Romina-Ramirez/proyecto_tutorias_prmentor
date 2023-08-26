@@ -20,7 +20,9 @@
             <font-awesome-icon icon="fa-regular fa-phone" />
             {{ objetoCompartido.usuario.telefono }}
           </h3>
-          <button class="edit">Editar Perfil</button>
+          <router-link to="/actualizar">
+            <button class="edit">Editar Perfil</button></router-link
+          >
         </div>
       </div>
       <div class="containerAcerca containers">
@@ -44,9 +46,9 @@
       <div class="containerAcademico containers">
         <h2>Perfil Académico</h2>
         <hr />
-        <h3>Nivel educativo Actual:</h3>
-        <h3>Institución educativa:</h3>
-        <h3>Área de estudio</h3>
+        <h3>Nivel educativo Actual: {{ objetoCompartido.usuario.nivelEd }}</h3>
+        <h3>Institución educativa: {{ objetoCompartido.usuario.institucion }}</h3>
+        <h3>Área de estudio: {{ objetoCompartido.usuario.carrera }} </h3>
       </div>
     </div>
     <div class="containerDer">

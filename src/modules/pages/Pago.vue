@@ -39,12 +39,16 @@
         <div class="datosTarjeta">
           <div class="datosValida">
             <label for="">Número de la tarjeta</label>
-            <input type="text" placeholder="0000 0000 0000 0000" />
+            <input
+              type="text"
+              placeholder="0000 0000 0000 0000"
+              v-model="pago.nroTarjeta"
+            />
           </div>
           <div class="datosMas">
             <div class="datosValida">
               <label for="">Fecha de vencimiento</label>
-              <input type="text" placeholder="MM/AA" />
+              <input type="text" placeholder="MM/AA" v-model="fecha_exp" />
             </div>
             <div class="datosValida">
               <label for="">Código de seguridad</label>
@@ -52,7 +56,7 @@
             </div>
           </div>
           <div class="eleccion">
-            <input type="checkbox" id="check" />
+            <input type="checkbox" id="check" v-model="check" />
             <b>
               Guardar tarjeta para futuras compras. Esto no afectará la forma en
               la que pagas por los paquetes existentes y lo puedes administrar
@@ -60,14 +64,85 @@
             </b>
           </div>
         </div>
-        <button id="button">Pagar ahora</button>
+        <button id="button" @click="agregarPago">Pagar ahora</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import { getDatabase, ref, child, push, update, set } from "firebase/database";
+import { mapState } from "vuex";
+
+export default {
+  data() {
+    return {
+      horas: 10,
+      check: null,
+      fecha_exp: "",
+      pago: {
+        paquete: "Paquete 1",
+        nroTarjeta: "",
+        monto: 9.99,
+        fecha: null,
+        nombre: "",
+      },
+    };
+  },
+  computed: {
+    ...mapState(["objetoCompartido"]),
+  },
+  methods: {
+    agregarPago() {
+      const db = getDatabase();
+      const pagosRef = ref(db, "pagos/");
+
+      const nuevoPagoRef = push(pagosRef); // Generar un nuevo ID único para el usuario
+      this.pago.nombre = this.objetoCompartido.usuario.nombre;
+      var fechaHoraActual = new Date();
+
+      var fechaHoraFormateada = fechaHoraActual.toISOString(); // Formato ISO 8601
+
+      console.log(fechaHoraFormateada); // Imprimir la fecha y hora formateada
+
+      this.pago.fecha = fechaHoraFormateada;
+
+      set(nuevoPagoRef, this.pago)
+        .then(() => {
+          console.log("Pago agregado exitosamente a Firebase.");
+          this.actualizar();
+        })
+        .catch((error) => {
+          console.error("Error al agregar el pago a Firebase:", error);
+        });
+    },
+    actualizar() {
+      const db = getDatabase();
+
+      if (check) {
+        this.objetoCompartido.usuario.nroTarjeta = this.pago.nroTarjeta;
+        this.objetoCompartido.usuario.fecha_exp = this.fecha_exp;
+        this.objetoCompartido.usuario.horas_disponibles += this.horas;
+      } else {
+        this.objetoCompartido.usuario.horas_disponibles += this.horas;
+      }
+
+      // A post entry.
+      const postData = this.objetoCompartido.usuario;
+
+      // Write the new post's data simultaneously in the posts list and the user's post list.
+      const updates = {};
+      updates["/usuarios/" + this.objetoCompartido.clave] = postData;
+      const retorno = update(ref(db), updates);
+      console.log("Se ha actualizado: ", retorno);
+      this.$router.push("/perfil");
+    },
+  },
+  mounted(){
+    this.pago.nroTarjeta=this.objetoCompartido.usuario.nroTarjeta;
+    this.fecha_exp=this.objetoCompartido.usuario.fecha_exp;
+  }
+};
 </script>
 
 <style scoped>

@@ -53,10 +53,10 @@ const routes = [
         path: '/horario',
         component: () => import('../modules/pages/HorarioPage.vue')
     },
-    // {
-    //     path: '/pruebazoom',
-    //     component: () => import('../modules/pages/Zoom2.vue')
-    // }
+    {
+        path: '/actualizar',
+        component: () => import('../modules/pages/ActualizarDatosPerfil.vue')
+    },
 ]
 
 const router = createRouter({
