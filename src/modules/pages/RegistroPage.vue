@@ -54,7 +54,9 @@ export default {
         nombre: "",
         rol: "estudiante",
         correo: "",
-        horas_disponibles: 0,
+        horas_disponibles: 10,
+        nMaterias:1,
+        materias:[],
         foto_perfil: "",
         telefono: "",
         contraseña: "",
@@ -62,7 +64,9 @@ export default {
         nivelEd:"",
         carrera:"",
         fecha_exp:"",
-        nroTarjeta:""
+        nroTarjeta:"",
+        pagos:{},
+        materias:{}
       },
     };
   },
@@ -103,7 +107,7 @@ export default {
           this.usuario.contraseña = "";
           this.usuario.foto_perfil = data.photoURL == null ? data.photoURL : "";
           this.agregarUsuario();
-          this.$router.push("/");
+          this.$router.push(`/${this.usuario.correo}`);
 
           console.log("registro exitoso");
         })
@@ -118,7 +122,7 @@ export default {
       const usuariosRef = dRef(db, "usuarios/");
 
       const nuevoUsuarioRef = push(usuariosRef); // Generar un nuevo ID único para el usuario
-
+      console.log(nuevoUsuarioRef);
       set(nuevoUsuarioRef, this.usuario)
         .then(() => {
           console.log("Usuario agregado exitosamente a Firebase.");

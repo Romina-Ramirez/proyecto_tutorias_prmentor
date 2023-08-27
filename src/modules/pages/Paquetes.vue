@@ -1,4 +1,5 @@
 <template>
+<div>
   <h1>Planes y Precios</h1>
   <div class="container">
     <div class="containerPaquete">
@@ -161,10 +162,24 @@
       </ul>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
-export default {};
+import { mapState } from "vuex";
+export default {
+  computed: {
+    ...mapState(["objetoCompartido"]),
+  },
+  mounted() {
+if (this.objetoCompartido == null) {
+      alert(
+        "No estás logueado. Serás redirigido a la página de inicio de sesión."
+      );
+      this.$router.push("/login");
+    }
+  },
+};
 </script>
 
 <style scoped>

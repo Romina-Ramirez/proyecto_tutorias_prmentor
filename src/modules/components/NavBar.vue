@@ -1,20 +1,20 @@
 <template>
-  <div class="container">
-    <router-link to="/">
+  <div v-if="objetoCompartido" class="container">
+    <router-link v-if="objetoCompartido" @click="comprobar" :to="linkInicio">
       <img
         id="imgLogo"
         src="../store/logo_rectangulo.png"
         alt="No se pudo mostrar la imagen."
       />
     </router-link>
-    <router-link v-if="ancho && !usuarioRegistrado" to="/perfil">
+    <router-link v-if="ancho && objetoCompartido" to="/perfil">
       <img
         id="imgPerfil"
         src="../store/usuario.png"
         alt="No se pudo mostrar la imagen."
       />
     </router-link>
-    <router-link v-if="ancho && !usuarioRegistrado" to="/login"
+    <router-link v-if="ancho && !objetoCompartido" to="/login"
       >Login</router-link
     >
     <select v-if="!ancho" v-model="itemSeleccionado" @change="direccionarRuta">
@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -34,10 +35,20 @@ export default {
       itemSeleccionado: "",
       usuarioRegistrado: null,
       items: [{ value: "perfil", label: "Perfil", link: "/perfil" }],
+      linkInicio: "",
     };
   },
   mounted() {
     window.addEventListener("resize", this.comprobarAncho);
+  },
+  computed: {
+    ...mapState(["materia"]),
+    ...mapState(["objetoCompartido"]),
+    comprobar() {
+      if (this.objetoCompartido != null) {
+        this.linkInicio = `/${this.objetoCompartido.usuario.correo}`;
+      }
+    },
   },
   methods: {
     comprobarAncho() {
@@ -56,6 +67,7 @@ export default {
       }
     },
   },
+  mounted() {},
 };
 </script>
 
@@ -80,7 +92,7 @@ export default {
 }
 
 a {
-  padding: 0px 70px;
+  padding: 10px 70px;
   position: relative;
   top: -15px;
 }
@@ -92,6 +104,7 @@ a {
   top: 0;
   left: 0;
   width: 100%;
+  height: 45px;
   border-bottom: 2px solid #00afa9;
   z-index: 1000;
 }

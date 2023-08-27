@@ -101,7 +101,7 @@ export default {
               console.error(error);
             });
 
-          this.$router.push({ path: `/inicio/${dato}` });
+          this.$router.push({ path: `/${dato}` });
         })
         .catch((error) => {
           console.log(error.code);

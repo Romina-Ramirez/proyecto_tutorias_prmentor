@@ -1,45 +1,48 @@
 <template>
-<div>
-  <h1>Subir Archivos</h1>
-  <input type="file" @change="selectFile" placeholder="dddd" />
+  <div v-if="objetoCompartido">
+    <h1>Subir Archivos</h1>
+    <input type="file" @change="selectFile" placeholder="dddd" />
 
-  <button class="btn btn-primary" @click="uploadFile()">Subir archivo</button>
-  <br />
-  <p>Progreso</p>
-  <progress max="100" :value="progress"></progress><span>{{ progress }}%</span>
-  <ul class="list-group">
-    <li
-      class="list-group-item"
-      v-for="(file, index) in selectedFile"
-      :key="file + index"
-    >
-      {{ file.name }}
-    </li>
-  </ul>
-  <div>
-    <h1>Archivos</h1>
-    <!-- <h2>{{ userData }}</h2> -->
-    <div v-if="totalitems != totalLoaded" class="loading">Loading&#8230;</div>
+    <button class="btn btn-primary" @click="uploadFile()">Subir archivo</button>
+    <br />
+    <p>Progreso</p>
+    <progress max="100" :value="progress"></progress
+    ><span>{{ progress }}%</span>
+    <ul class="list-group">
+      <li
+        class="list-group-item"
+        v-for="(file, index) in selectedFile"
+        :key="file + index"
+      >
+        {{ file.name }}
+      </li>
+    </ul>
     <div>
-      <div
-        class="col"
-        v-for="(file, index) in userFilesList"
-        :key="file + index">
-        <div class="card">
-          <img :src="file.icono" width="100" alt="Icono" />
-          <div class="card-body">
-            <h5 class="card-text">{{ file.name }}</h5>
-            <div>
-              <div class="btn-group">
-                <a :href="file.url" class="btn btn-sm btn-outline-secondary"
-                  >Download</a>
+      <h1>Archivos</h1>
+      <!-- <h2>{{ userData }}</h2> -->
+      <div v-if="totalitems != totalLoaded" class="loading">Loading&#8230;</div>
+      <div>
+        <div
+          class="col"
+          v-for="(file, index) in userFilesList"
+          :key="file + index"
+        >
+          <div class="card">
+            <img :src="file.icono" width="100" alt="Icono" />
+            <div class="card-body">
+              <h5 class="card-text">{{ file.name }}</h5>
+              <div>
+                <div class="btn-group">
+                  <a :href="file.url" class="btn btn-sm btn-outline-secondary"
+                    >Download</a
+                  >
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -75,6 +78,7 @@ export default {
   components: {},
   computed: {
     ...mapState(["materia"]),
+    ...mapState(["objetoCompartido"]),
   },
   methods: {
     selectFile(event) {
@@ -178,7 +182,14 @@ export default {
     },
   },
   mounted() {
-    this.listAllm();
+    if (this.objetoCompartido == null) {
+      alert(
+        "No estás logueado. Serás redirigido a la página de inicio de sesión."
+      );
+      this.$router.push("/login");
+    } else {
+      this.listAllm();
+    }
   },
 };
 </script>

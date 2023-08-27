@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 
 const routes = [
     {
-        path: '/inicio/:dato',
+        path: '/:dato',
         component: () => import('../modules/pages/PresentacionCursos.vue')
     },
     {

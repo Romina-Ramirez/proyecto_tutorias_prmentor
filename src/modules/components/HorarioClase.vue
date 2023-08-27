@@ -12,6 +12,7 @@ import TimeGrid from "@fullcalendar/timegrid";
 import Interaction from "@fullcalendar/interaction";
 import List from "@fullcalendar/list";
 import RRule from "@fullcalendar/rrule";
+import { getDatabase, ref, child, push, update, set, get } from "firebase/database";
 
 export default {
   data() {
@@ -71,6 +72,33 @@ export default {
   components: {
     FullCalendar,
   },
+  methods:{
+    actualizarHorario() {
+      //Aqui se busca el usuario para compartirle con los demas componentes
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, `horarios/`))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            console.log("resultado: ", snapshot.val());
+            const horariosFiltrados = Object.values(snapshot.val());
+
+            if (horariosFiltrados.length > 0) {
+              this.calendarOptions.events=horariosFiltrados;
+            } else {
+              console.log("No se encontraron horarios");
+            }
+          } else {
+            console.log("No hay horarios disponibles");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+  },
+  mounted(){
+    this.actualizarHorario();
+  }
 };
 </script>
 

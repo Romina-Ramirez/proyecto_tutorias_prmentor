@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div v-if="objetoCompartido" class="container">
     <div class="containerIzq">
       <div class="containerDatos containers">
         <div>
@@ -47,8 +47,10 @@
         <h2>Perfil Académico</h2>
         <hr />
         <h3>Nivel educativo Actual: {{ objetoCompartido.usuario.nivelEd }}</h3>
-        <h3>Institución educativa: {{ objetoCompartido.usuario.institucion }}</h3>
-        <h3>Área de estudio: {{ objetoCompartido.usuario.carrera }} </h3>
+        <h3>
+          Institución educativa: {{ objetoCompartido.usuario.institucion }}
+        </h3>
+        <h3>Área de estudio: {{ objetoCompartido.usuario.carrera }}</h3>
       </div>
     </div>
     <div class="containerDer">
@@ -56,19 +58,14 @@
         <h2>Información de Paquetes</h2>
         <hr />
         <h4>Paquetes activos</h4>
-        <h4>
-          <font-awesome-icon icon="fa-solid fa-box-archive" />
-          Paquete 1
-          <font-awesome-icon icon="fa-solid fa-dollar-sign" />
-          9.99
-        </h4>
-        <h4>
-          <font-awesome-icon icon="fa-solid fa-box-archive" />
-          Paquete 2
-          <font-awesome-icon icon="fa-solid fa-dollar-sign" />
-          14.99
-        </h4>
-
+        <div v-if="pagos">
+          <h4 v-for="item in pagos" :key="item.clave">
+            <font-awesome-icon icon="fa-solid fa-box-archive" />
+            {{ item.pago.paquete }}
+            <font-awesome-icon icon="fa-solid fa-dollar-sign" />
+            {{ item.pago.monto }}
+          </h4>
+        </div>
         <router-link to="/paquetes">
           <font-awesome-icon icon="fa-regular fa-square-plus" />
           Activar paquetes
@@ -99,18 +96,98 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
+import { getDatabase, ref, child, get } from "firebase/database";
 export default {
   data() {
     return {
       imagen_perfil: null,
+      pagos: null,
     };
   },
   computed: {
     ...mapState(["objetoCompartido"]),
   },
   mounted() {
+     if (this.objetoCompartido == null) {
+      alert(
+        "No estás logueado. Serás redirigido a la página de inicio de sesión."
+      );
+      this.$router.push("/login");
+    }else{
     this.imagen_perfil = this.objetoCompartido.usuario.foto_perfil;
+    this.actualizarDatos();
+    this.cargarPagos();
+    }
+
+  },
+  methods: {
+    cargarPagos() {
+      //Aqui se busca el usuario para compartirle con los demas componentes
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, `pagos/`))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            console.log("resultado: ", Object.entries(snapshot.val()));
+            console.log(
+              "resultado objeto: ",
+              Object.values(this.objetoCompartido.usuario.pagos)
+            );
+            const pagosFiltrados = Object.entries(snapshot.val())
+              .filter(([clave, pago]) =>
+               Object.values(this.objetoCompartido.usuario.pagos).find(item => item.valor === pago.index)
+              )
+              .map(([clave, pago]) => ({ clave, pago })); // Crear un nuevo objeto con clave y valor
+
+            if (pagosFiltrados.length > 0) {
+              this.pagos = pagosFiltrados;
+              console.log(pagosFiltrados);
+            } else {
+              console.log("No se encontraron pagos para este usuario");
+            }
+          } else {
+            console.log("No hay datos disponibles");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+
+    actualizarDatos() {
+      //Aqui se busca el usuario para compartirle con los demas componentes
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, `usuarios/`))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            console.log("resultado: ", snapshot.val());
+            const usuariosFiltrados = Object.entries(snapshot.val())
+              .filter(
+                ([clave, usuario]) =>
+                  usuario.correo === this.objetoCompartido.usuario.correo
+              )
+              .map(([clave, usuario]) => ({ clave, usuario })); // Crear un nuevo objeto con clave y valor
+
+            if (usuariosFiltrados.length > 0) {
+              const usuarioFiltrado = usuariosFiltrados[0];
+              this.cambiarObjetoCompartido(usuarioFiltrado);
+              console.log(usuarioFiltrado);
+            } else {
+              console.log("No se encontraron usuarios con el correo buscado.");
+            }
+          } else {
+            console.log("No hay datos disponibles");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    ...mapMutations(["setObjetoCompartido"]),
+    cambiarObjetoCompartido(objeto) {
+      const nuevoObjeto = objeto;
+      this.setObjetoCompartido(nuevoObjeto);
+    },
   },
 };
 </script>

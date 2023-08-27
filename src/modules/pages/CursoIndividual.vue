@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <h1>{{materia.nombre}}</h1>
+  <div v-if="objetoCompartido" class="container">
+    <h1>{{ materia.nombre }}</h1>
     <div v-if="!inscrito" class="containerOpciones">
       <router-link to="/participantes">Participantes</router-link>
       <router-link to="/horario">Horario</router-link>
@@ -15,21 +15,30 @@
 </template>
 
 <script>
-import DescripcionCurso from '../components/DescripcionCurso.vue';
+import DescripcionCurso from "../components/DescripcionCurso.vue";
 import { mapState } from "vuex";
 
 export default {
   components: {
     DescripcionCurso,
   },
-  data () {
+  data() {
     return {
       inscrito: false,
-    }
+    };
   },
   computed: {
     ...mapState(["materia"]),
-  }
+    ...mapState(["objetoCompartido"]),
+  },
+  mounted() {
+    if (this.objetoCompartido == null) {
+      alert(
+        "No estás logueado. Serás redirigido a la página de inicio de sesión."
+      );
+      this.$router.push("/login");
+    }
+  },
 };
 </script>
 

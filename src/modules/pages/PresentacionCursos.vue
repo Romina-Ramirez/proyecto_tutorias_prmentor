@@ -24,7 +24,6 @@
       </div>
       <div class="containerComponentes">
         <CursoPCVue id="componenteCursos" />
-        
       </div>
     </div>
     <div class="containerBotones">
@@ -38,6 +37,7 @@
 
 <script>
 import CursoPCVue from "../components/CursoPC.vue";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -56,9 +56,9 @@ export default {
       }
     },
   },
-  mounted(){
-    console.log(this.$route.params.dato)
-  }
+  mounted() {
+    console.log(this.$route);
+  },
 };
 </script>
 

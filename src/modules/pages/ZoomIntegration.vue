@@ -1,12 +1,15 @@
 <template>
-  <div v-if="mostrar == true" class="reunion">
-    <label>Numero de Reunion:</label>
-    <input v-model="meetingNumber" type="number" />
-    <label>Codigo de Acceso:</label>
-    <input v-model="passWord" type="text" />
-    <label>Nombre:</label>
-    <input v-model="userName" type="text" />
-    <button @click="joinMeeting">Unirse a la reunion</button>
+  <div>
+    <h4>{{ materia.nombre }}</h4>
+    <div v-if="mostrar == true" class="reunion">
+      <label>Numero de Reunion:</label>
+      <input v-model="meetingNumber" type="number" />
+      <label>Codigo de Acceso:</label>
+      <input v-model="passWord" type="text" />
+      <label>Nombre:</label>
+      <input v-model="userName" type="text" />
+      <button @click="joinMeeting">Unirse a la reunion</button>
+    </div>
   </div>
   <div id="meetingSDKElement">
     <!-- Meeting SDK renders here when a user starts or joins a Zoom meeting -->
@@ -16,6 +19,7 @@
 <script>
 import ZoomMtgEmbedded from "@zoomus/websdk/embedded";
 import { KJUR } from "jsrsasign";
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -31,6 +35,21 @@ export default {
       leaveUrl: "https://prmentor-tutorias.web.app",
       mostrar: true,
     };
+  },
+  computed: {
+    ...mapState(["materia"]),
+    ...mapState(["objetoCompartido"]),
+  },
+  mounted() {
+    if (this.objetoCompartido == null) {
+      alert(
+        "No estás logueado. Serás redirigido a la página de inicio de sesión."
+      );
+      this.$router.push("/login");
+    }else{
+      this.userName = this.objetoCompartido.usuario.nombre;
+    }
+    
   },
   methods: {
     generateSignature() {
@@ -71,7 +90,7 @@ export default {
         language: "es-Es",
         customize: {
           video: {
-            isResizable: false,
+            isResizable: true,
             viewSizes: {
               default: {
                 width: 1120,

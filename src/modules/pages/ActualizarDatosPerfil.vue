@@ -60,22 +60,29 @@ export default {
       this.objetoCompartido.usuario.carrera = this.usuario.carrera;
 
       // A post entry.
-      const postData = this.objetoCompartido.usuario
+      const postData = this.objetoCompartido.usuario;
 
       // Write the new post's data simultaneously in the posts list and the user's post list.
       const updates = {};
       updates["/usuarios/" + this.objetoCompartido.clave] = postData;
       const retorno = update(ref(db), updates);
       console.log(retorno);
-      this.$router.push("/perfil")
+      this.$router.push("/perfil");
     },
   },
   mounted() {
-    (this.usuario.nombre = this.objetoCompartido.usuario.nombre),
-      (this.usuario.telefono = this.objetoCompartido.usuario.telefono),
-      (this.usuario.institucion = this.objetoCompartido.usuario.institucion),
-      (this.usuario.nivelEd = this.objetoCompartido.usuario.nivelEd),
-      (this.usuario.carrera = this.objetoCompartido.usuario.carrera);
+    if (this.objetoCompartido == null) {
+      alert(
+        "No estás logueado. Serás redirigido a la página de inicio de sesión."
+      );
+      this.$router.push("/login");
+    } else {
+      (this.usuario.nombre = this.objetoCompartido.usuario.nombre);
+        (this.usuario.telefono = this.objetoCompartido.usuario.telefono);
+        (this.usuario.institucion = this.objetoCompartido.usuario.institucion);
+        (this.usuario.nivelEd = this.objetoCompartido.usuario.nivelEd);
+        (this.usuario.carrera = this.objetoCompartido.usuario.carrera);
+    }
   },
 };
 </script>

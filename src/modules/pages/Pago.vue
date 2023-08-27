@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div v-if="objetoCompartido" class="container">
     <div class="containerPaquete">
       <div class="plan">
         <h1 id="tuPlan">Tu plan</h1>
@@ -72,7 +72,7 @@
 
 <script>
 import { getDatabase, ref, child, push, update, set } from "firebase/database";
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   data() {
@@ -80,12 +80,14 @@ export default {
       horas: 10,
       check: null,
       fecha_exp: "",
+      npagos: 0,
       pago: {
         paquete: "Paquete 1",
         nroTarjeta: "",
         monto: 9.99,
         fecha: null,
         nombre: "",
+        index: "",
       },
     };
   },
@@ -94,6 +96,10 @@ export default {
   },
   methods: {
     agregarPago() {
+      this.npagos = !this.objetoCompartido.usuario.pagos
+        ? 0
+        : Object.entries(this.objetoCompartido.usuario.pagos).length;
+      this.pago.index = `p${this.npagos + 1}`;
       const db = getDatabase();
       const pagosRef = ref(db, "pagos/");
 
@@ -117,6 +123,8 @@ export default {
         });
     },
     actualizar() {
+      const clave = this.objetoCompartido.clave;
+
       const db = getDatabase();
 
       if (check) {
@@ -135,13 +143,33 @@ export default {
       updates["/usuarios/" + this.objetoCompartido.clave] = postData;
       const retorno = update(ref(db), updates);
       console.log("Se ha actualizado: ", retorno);
+
+      const pagosRef = ref(db, "usuarios/" + clave + "/pagos/");
+
+      const nuevoPagoRef = push(pagosRef);
+
+      set(nuevoPagoRef, { valor: this.pago.index })
+        .then(() => {
+          console.log("Pago al usuario agregado exitosamente a Firebase.");
+        })
+        .catch((error) => {
+          console.error("Error al agregar pago al usuario a Firebase:", error);
+        });
+
       this.$router.push("/perfil");
     },
   },
-  mounted(){
-    this.pago.nroTarjeta=this.objetoCompartido.usuario.nroTarjeta;
-    this.fecha_exp=this.objetoCompartido.usuario.fecha_exp;
-  }
+  mounted() {
+    if (this.objetoCompartido == null) {
+      alert(
+        "No estás logueado. Serás redirigido a la página de inicio de sesión."
+      );
+      this.$router.push("/login");
+    } else {
+      this.pago.nroTarjeta = this.objetoCompartido.usuario.nroTarjeta;
+      this.fecha_exp = this.objetoCompartido.usuario.fecha_exp;
+    }
+  },
 };
 </script>
 

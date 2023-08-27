@@ -1,12 +1,17 @@
 <template>
   <NavBar />
   <router-view />
-  <Contactos v-if="final" />
+  <Contactos
+    v-if="
+      final && this.$route.href ==`#/${objetoCompartido.usuario.correo}`
+    "
+  />
 </template>
 
 <script>
 import Contactos from "./modules/components/Contactos.vue";
 import NavBar from "./modules/components/NavBar.vue";
+import { mapState } from "vuex";
 
 export default {
   name: "App",
@@ -18,6 +23,10 @@ export default {
     return {
       final: false,
     };
+  },
+  computed: {
+    ...mapState(["materia"]),
+    ...mapState(["objetoCompartido"]),
   },
   mounted() {
     window.addEventListener("scroll", this.mostrarContacto);
