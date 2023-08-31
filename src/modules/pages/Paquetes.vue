@@ -18,7 +18,7 @@
       </p>
       <h1>0,00 USD</h1>
       <h4>al mes para una persona</h4>
-      <router-link to="/"
+      <router-link to="/perfil"
         ><button id="button">Empieza ahora</button></router-link
       >
       <ul>
@@ -91,9 +91,7 @@
       </div>
       <h1>Paquete de materia extra</h1>
       <p>
-        Agregará 10 horas al plan gratuito. Tendrás acceso a 10 horas extra en
-        la materia que decidas, además de las 10 horas que te ofrece el plan
-        gratuito.
+        Agregará 10 horas al plan gratuito. Además tendras acceso a una materia extra, de tu elección.
       </p>
       <h1>14,99 USD</h1>
       <h4>por horas extra</h4>
@@ -104,7 +102,7 @@
           <font-awesome-icon
             icon="fa-solid fa-check"
             style="color: #27dbd5"
-          />10 horas extra en la materia que hayas escogido dentro del plan
+          />10 horas extra en la materia y una materia extra dentro del plan
           gratuito.
         </li>
         <li>
@@ -131,7 +129,7 @@
       </div>
       <h1>Paquete de materia avanzada por 36 horas</h1>
       <p>
-        Agregará 10 horas al plan gratuito. Tendrás acceso a 10 horas extra en
+        Agregará 36 horas al plan gratuito. Tendrás acceso a 36 horas extra en
         la materia que decidas, además de las 10 horas que te ofrece el plan
         gratuito.
       </p>
@@ -144,8 +142,7 @@
           <font-awesome-icon
             icon="fa-solid fa-check"
             style="color: #27dbd5"
-          />10 horas extra en la materia que hayas escogido dentro del plan
-          gratuito.
+          />36 horas extra en la materia que hayas escogido anteriormente.
         </li>
         <li>
           <font-awesome-icon

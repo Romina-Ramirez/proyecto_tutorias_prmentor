@@ -29,7 +29,7 @@
         <h2>Acerca de {{objetoCompartido.usuario.nombre}}</h2>
         <hr />
         <p>
-          ¡Saludos! Soy Michael, un entusiasta del aprendizaje y la exploración
+          ¡Saludos! Soy {{objetoCompartido.usuario.nombre}}, un entusiasta del aprendizaje y la exploración
           constante. A lo largo de mi vida, he tenido la fortuna de cultivar una
           variedad de intereses apasionantes. Desde sumergirme en las
           complejidades de las matemáticas y la resolución de problemas hasta
