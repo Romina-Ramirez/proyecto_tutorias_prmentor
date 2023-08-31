@@ -5,7 +5,7 @@
       :key="index"
       @click="rate(index + 1)"
     >
-      <font-awesome-icon :icon="getStarIcon(index)" size="2xl"/>
+      <font-awesome-icon :icon="getStarIcon(index)" size="2xl" />
     </span>
   </div>
 </template>
@@ -13,6 +13,7 @@
 <script>
 import { faStar as fasStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   props: {
@@ -29,16 +30,21 @@ export default {
     currentRating() {
       return Math.min(this.value, this.maxStars);
     },
+    ...mapState(["rating"]),
   },
   methods: {
     rate(rating) {
       this.$emit("update:value", rating);
-      console.log(this.value)
+      console.log(rating);
+      this.cambiarRating(rating);
     },
     getStarIcon(index) {
-      return index < this.currentRating
-        ? fasStar
-        : farStar;
+      return index < this.rating ? fasStar : farStar;
+    },
+     ...mapMutations(["setRating"]),
+    cambiarRating(objeto) {
+      const nuevoObjeto = objeto;
+      this.setRating(nuevoObjeto);
     },
   },
 };

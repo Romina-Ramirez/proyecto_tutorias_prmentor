@@ -26,6 +26,9 @@
     <router-link v-else :to="linkReunion">
       <button id="button" @click="actualizar">Unirse a la reunion</button>
     </router-link>
+    <router-link to="/valoraciones">
+      <button id="btn-val">Calificar curso</button>
+    </router-link>
   </div>
 </template>
 

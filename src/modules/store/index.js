@@ -4,6 +4,7 @@ export default createStore({
   state: {
     objetoCompartido: null,
     materia: null,
+    rating:null,
   },
   mutations: {
     setObjetoCompartido(state, objeto) {
@@ -11,6 +12,9 @@ export default createStore({
     },
     setMateria(state, objeto) {
       state.materia = objeto;
+    },
+    setRating(state, objeto) {
+      state.rating = objeto;
     },
   },
 });

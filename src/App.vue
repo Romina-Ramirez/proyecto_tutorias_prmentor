@@ -1,11 +1,7 @@
 <template>
   <NavBar />
   <router-view />
-  <Contactos
-    v-if="
-      final && this.$route.href ==`#/${objetoCompartido.usuario.correo}`
-    "
-  />
+  <Contactos v-if="final" />
 </template>
 
 <script>
