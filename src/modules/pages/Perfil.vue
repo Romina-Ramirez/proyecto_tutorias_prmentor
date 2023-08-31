@@ -74,22 +74,12 @@
       <div class="containerEquipos containers">
         <h2>Mis cursos</h2>
         <hr />
-        <h4>
-          <font-awesome-icon icon="fa-solid fa-user-group" />
-          Matemáticas - Impartida por: Pablo Suntaxi
-        </h4>
-        <h4>
-          <font-awesome-icon icon="fa-solid fa-user-group" />
-          Matemáticas - Impartida por: Pablo Suntaxi
-        </h4>
-        <h4>
-          <font-awesome-icon icon="fa-solid fa-user-group" />
-          Equipo 3: Matemáticas - Impartida por: Pablo Suntaxi
-        </h4>
-        <h4>
-          <font-awesome-icon icon="fa-solid fa-user-group" />
-          Equipo 4: Matemáticas - Impartida por: Pablo Suntaxi
-        </h4>
+        <div class="cursos" v-if="materias">
+          <h4 v-for="item in materias" :key="item.clave">
+            <font-awesome-icon icon="fa-solid fa-user-group" />
+            {{item.materia.nombre}} - Impartida por: {{item.materia.tutor}}
+          </h4>
+        </div>
       </div>
     </div>
   </div>
@@ -103,25 +93,59 @@ export default {
     return {
       imagen_perfil: null,
       pagos: null,
+      materias: null,
     };
   },
   computed: {
     ...mapState(["objetoCompartido"]),
   },
   mounted() {
-     if (this.objetoCompartido == null) {
+    if (this.objetoCompartido == null) {
       alert(
         "No estás logueado. Serás redirigido a la página de inicio de sesión."
       );
       this.$router.push("/login");
-    }else{
-    this.imagen_perfil = this.objetoCompartido.usuario.foto_perfil;
-    this.actualizarDatos();
-    this.cargarPagos();
+    } else {
+      this.imagen_perfil = this.objetoCompartido.usuario.foto_perfil;
+      this.actualizarDatos();
+      this.cargarPagos();
+      this.cargarMaterias();
     }
-
   },
   methods: {
+    cargarMaterias() {
+      //Aqui se busca el usuario para compartirle con los demas componentes
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, `materias/`))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            console.log("resultado: ", Object.entries(snapshot.val()));
+            console.log(
+              "resultado objeto materias: ",
+              Object.values(this.objetoCompartido.usuario.materias)
+            );
+            const materiasFiltradas = Object.entries(snapshot.val())
+              .filter(([clave, materia]) =>
+                Object.values(this.objetoCompartido.usuario.materias).find(
+                  (item) => item.valor === materia.nombre
+                )
+              )
+              .map(([clave, materia]) => ({ clave, materia })); // Crear un nuevo objeto con clave y valor
+
+            if (materiasFiltradas.length > 0) {
+              this.materias = materiasFiltradas;
+              console.log(materiasFiltradas);
+            } else {
+              console.log("No se encontraron pagos para este usuario");
+            }
+          } else {
+            console.log("No hay datos disponibles");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     cargarPagos() {
       //Aqui se busca el usuario para compartirle con los demas componentes
       const dbRef = ref(getDatabase());
@@ -135,7 +159,9 @@ export default {
             );
             const pagosFiltrados = Object.entries(snapshot.val())
               .filter(([clave, pago]) =>
-               Object.values(this.objetoCompartido.usuario.pagos).find(item => item.valor === pago.index)
+                Object.values(this.objetoCompartido.usuario.pagos).find(
+                  (item) => item.valor === pago.index
+                )
               )
               .map(([clave, pago]) => ({ clave, pago })); // Crear un nuevo objeto con clave y valor
 
@@ -241,5 +267,12 @@ p {
 .edit:hover {
   background-color: #2980b9;
   border-color: #2980b9;
+}
+
+.cursos{
+  display: flex;
+  align-content: left;
+  justify-items: left;
+  flex-direction: column;
 }
 </style>

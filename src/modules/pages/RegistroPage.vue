@@ -57,7 +57,7 @@ export default {
         horas_disponibles: 10,
         nMaterias:1,
         materias:[],
-        foto_perfil: "",
+        foto_perfil: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/420px-PNG_transparency_demonstration_1.png",
         telefono: "",
         contraseña: "",
         institucion:"",

@@ -93,7 +93,7 @@ export default {
             isResizable: true,
             viewSizes: {
               default: {
-                width: 1120,
+                width: 1080,
                 height: 600,
               },
             },
