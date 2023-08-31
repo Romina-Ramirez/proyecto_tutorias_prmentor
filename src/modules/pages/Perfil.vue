@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="containerAcerca containers">
-        <h2>Acerca de Michael</h2>
+        <h2>Acerca de {{objetoCompartido.usuario.nombre}}</h2>
         <hr />
         <p>
           ¡Saludos! Soy Michael, un entusiasta del aprendizaje y la exploración
