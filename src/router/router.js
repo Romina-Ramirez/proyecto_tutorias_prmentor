@@ -57,6 +57,10 @@ const routes = [
         path: '/actualizar',
         component: () => import('../modules/pages/ActualizarDatosPerfil.vue')
     },
+    {
+        path: '/valoraciones',
+        component: () => import('../modules/pages/Valoraciones.vue')
+    },
 ]
 
 const router = createRouter({

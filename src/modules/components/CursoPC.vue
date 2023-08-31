@@ -298,10 +298,16 @@ h4 {
 }
 
 #descripcion {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   margin-inline: 25px;
   margin-bottom: 10px;
-  text-align: justify;
+  height: 35px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: gray;
+  text-align: justify;
   font-weight: normal;
 }
 

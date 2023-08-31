@@ -10,7 +10,7 @@
       <h2>Descubre un mundo de conocimiento a tu alcance.</h2>
     </div>
     <div class="containerCursos">
-      <div class="containerFiltros">
+      <!-- <div class="containerFiltros">
         <div class="containerSearch">
           <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
           <input type="search" id="inputSearch" placeholder="Buscar..." />
@@ -21,15 +21,15 @@
         <h3>Más nuevos</h3>
         <h3 class="filtro2">CATEGORIAS</h3>
         <h3>MÁS FILTROS</h3>
-      </div>
+      </div> -->
       <div class="containerComponentes">
         <CursoPCVue id="componenteCursos" />
       </div>
     </div>
-    <div class="containerBotones">
+    <!-- <div class="containerBotones">
       <button id="btnAnterior" disabled>Anterior</button>
       <button id="btnSiguiente">Siguiente</button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -122,11 +122,9 @@ h3 {
 
 .containerCursos {
   background: #fff0de;
-  /* height: 400px; */
   width: 1300px;
   border-radius: 20px;
   display: grid;
-  grid-template-columns: 0.3fr 1.7fr;
   padding: 20px;
   align-items: center;
   box-shadow: 10px 10px 30px -15px #685b4c;
