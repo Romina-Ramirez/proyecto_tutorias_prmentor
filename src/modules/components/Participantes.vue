@@ -10,7 +10,7 @@
         />
         <h1>Participantes</h1>
 
-        <table id="tabla-carros">
+        <table v-if="listado" id="tabla-carros">
           <thead>
             <tr>
               <th>Nombre</th>
@@ -20,12 +20,12 @@
               <th>Telefono</th>
             </tr>
 
-            <tr v-for="item in listado" :key="item">
-              <th>{{ item.nombre }}</th>
+            <tr v-i v-for="item in listado" :key="item">
+              <th>{{ item.usuario.nombre }}</th>
               <th>Estudiante</th>
 
-              <th>{{ item.correo }}</th>
-              <th>{{ item.telefono }}</th>
+              <th>{{ item.usuario.correo }}</th>
+              <th>{{ item.usuario.telefono }}</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -36,6 +36,8 @@
 </template>
   
   <script>
+import { getDatabase, ref, child, get } from "firebase/database";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   data() {
@@ -49,52 +51,81 @@ export default {
       telefono: null,
     };
   },
-
+  computed: {
+    ...mapState(["materia"]),
+  },
   methods: {
-     buscarTodos() {
+    buscarTodos() {
+      //Aqui se busca el usuario para compartirle con los demas componentes
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, `usuarios/`))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            console.log("resultado: ", Object.entries(snapshot.val()));
+            console.log(
+              "resultado objeto usuarios: ",
+              Object.values(this.materia.participantes)
+            );
+            const participantesFiltrados = Object.entries(snapshot.val())
+              .filter(([clave, usuario]) =>
+                Object.values(this.materia.participantes).find(
+                  (item) => item.valor === clave
+                )
+              )
+              .map(([clave, usuario]) => ({ clave, usuario })); // Crear un nuevo objeto con clave y valor
 
-      var listaDeObjetos = [
-        {
-          id: 2,
-          nombre: "Mia",
-          correo: "dhfbhnf@jffj",
-          contraseña: "1234",
-          telefono: "099999",
-        },
-        {
-          id: 3,
-          nombre: "Lana",
-          correo: "dhfbhnf@jffj",
-          contraseña: "1111",
-          telefono: "099999",
-        },
-        {
-          id: 4,
-          nombre: "Nekane",
-          correo: "dhfbhnf@jffj",
-          contraseña: "2222",
-          telefono: "099999",
-        },
-        {
-          id: 5,
-          nombre: "Jordi",
-          correo: "dhfbhnf@jffj",
-          contraseña: "3333",
-          telefono: "099999",
-        },
-        {
-          id: 6,
-          nombre: "Riley",
-          correo: "dhfbhnf@jffj",
-          contraseña: "4444",
-          telefono: "099999",
-        },
-      ];
-      this.listado = listaDeObjetos;
+            if (participantesFiltrados.length > 0) {
+              this.listado = participantesFiltrados;
+              console.log(participantesFiltrados);
+            } else {
+              console.log("No se encontraron participantes para esta materia");
+            }
+          } else {
+            console.log("No hay datos disponibles");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    actualizarDatos() {
+      //Aqui se busca el usuario para compartirle con los demas componentes
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, `materias/`))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            console.log("resultado: ", snapshot.val());
+            const usuariosFiltrados = Object.entries(snapshot.val())
+              .filter(
+                ([clave, materia]) =>
+                  materia.nombre === this.materia.nombre
+              )
+              .map(([clave, materia]) => ({ clave, materia })); // Crear un nuevo objeto con clave y valor
+
+            if (usuariosFiltrados.length > 0) {
+              const usuarioFiltrado = usuariosFiltrados[0];
+              this.cambiarMateria(usuarioFiltrado.materia);
+              console.log(usuarioFiltrado);
+            } else {
+              console.log("No se encontraron materias con ese nombre.");
+            }
+          } else {
+            console.log("No hay datos disponibles");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    ...mapMutations(["setMateria"]),
+    cambiarMateria(objeto) {
+      const nuevoObjeto = objeto;
+      this.setMateria(nuevoObjeto);
     },
   },
 
   mounted() {
+    this.actualizarDatos();
     this.buscarTodos();
   },
 };

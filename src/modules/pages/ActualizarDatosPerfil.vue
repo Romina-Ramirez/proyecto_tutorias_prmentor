@@ -87,7 +87,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .wrapper {
   display: flex;
   justify-content: center;
@@ -98,6 +98,7 @@ export default {
   border: 6px solid #93e3d4;
   border-radius: 20px;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  margin-left: 35%;
 }
 .wrapper .form-box {
   width: 100%;
